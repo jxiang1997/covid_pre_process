@@ -71,6 +71,8 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
     def get_image_item(self, index):
         sample = self.dataset[index]
 
+        print(self.args)
+
         if self.args.multi_image:
             x = self.image_loader.get_images(sample['paths'])
         else:
