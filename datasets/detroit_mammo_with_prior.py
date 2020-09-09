@@ -9,9 +9,7 @@ import os
 
 SUMMARY_MSG = "Contructed Detroit Mammo with prior dataset with {} records, {} exams, {} patients, and the following class balance \n {}"
 
-METADATA_FILENAMES = {
-    'Align': "detroit_metadata_reformatted.json"
-}
+METADATA_FILENAME = "detroit_metadata_reformatted.json"
 
 class Detroit_Mammo_Cancer_With_Prior_Dataset(Abstract_Mammo_Cancer_With_Prior_Dataset):
     """
@@ -77,6 +75,10 @@ class Detroit_Mammo_Cancer_With_Prior_Dataset(Abstract_Mammo_Cancer_With_Prior_D
                     })
         
         return dataset
+
+    @property
+    def METADATA_FILENAME(self):
+        return METADATA_FILENAME
 
     @staticmethod
     def set_args(args):
