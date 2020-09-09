@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 import json
 import numpy as np
-import pdb
+import ipdb
 import os
 
 METAFILE_NOTFOUND_ERR = "Metadata file {} could not be parsed! Exception: {}!"
