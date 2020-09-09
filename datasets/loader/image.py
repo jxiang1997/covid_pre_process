@@ -17,7 +17,7 @@ class image_loader():
 
         params: path - absolute path to image
         """
-        image = torchvision.transforms.ToTensor()(Image.open(path))
+        image = torchvision.transforms.ToTensor()(Image.open(path).convert('RGB'))
 
         return image
     
