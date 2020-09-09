@@ -1,4 +1,5 @@
-from datasets.loader.image import image_loader
+from abc import ABCMeta, abstractmethod
+from loader.image import image_loader
 from torch.utils import data
 from tqdm import tqdm
 
@@ -14,6 +15,8 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
     Abstract dataset object for creating datasets with mammograms and prior mammograms. Dataset object is associated with the specified metadata file and also has a create_dataset method and a task. 
     On a forward pass, this dataset object will return an mammogram image concatenated with a prior of the same view. Dataset will primarily be used for image alignment task.
     """
+    __metaclass__ = ABCMeta
+
     def __init__(self, args, split_group):
         """
             params: args - config.
@@ -37,6 +40,46 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
         if len(self.dataset) == 0:
             return
     
+    @property
+    @abstractmethod
+    def METADATA_FILENAME(self):
+        pass
+
+
+    @abstractmethod
+    def create_dataset(self, split_group, img_dir):
+        """
+        Creating the dataset from the paths and labels in the json.
+
+        :split_group: - ['train'|'dev'|'test'].
+        :img_dir: - The path to the dir containing the images.
+
+        """
+        pass
+
+    @staticmethod
+    def set_args(args):
+        """Sets any args particular to the dataset."""
+        pass
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, index):
+        return self.get_image_item(index)
+    
+    def get_image_item(self, index):
+        sample = self.dataset[index]
+
+        if self.args.multi_image:
+            x = self.image_loader.get_images(sample['paths'])
+        else:
+            x = self.image_loader.get_image(sample['path'])
+        
+        item = {'x': x}
+
+        return item
+        
     def get_image_paths_by_views(self, exam):
         """
         Get image paths of left and right CCs and MLOs

@@ -1,4 +1,4 @@
-from datasets.abstract_mammo_with_prior import Abstract_Mammo_Cancer_With_Prior_Dataset
+from abstract_mammo_with_prior import Abstract_Mammo_Cancer_With_Prior_Dataset
 from torch.utils import data
 from tqdm import tqdm
 
