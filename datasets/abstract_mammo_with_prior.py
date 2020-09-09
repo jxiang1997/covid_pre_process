@@ -72,7 +72,7 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
         sample = self.dataset[index]
 
         print(self.args)
-        
+
         if self.args.multi_image:
             x = self.image_loader.get_images(sample['paths'])
         else:
@@ -82,7 +82,7 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
 
         return item
         
-    def get_image_paths_by_views(self, exam):
+    def get_image_paths_by_views(self, exam, img_dir):
         """
         Get image paths of left and right CCs and MLOs
 
@@ -91,17 +91,17 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
         returns: 4 lists of image paths of each view by this order: left_ccs, left_mlos, right_ccs, right_mlos. Force max 1 image per view.
         """
 
-        def get_view(view_name):
-            image_paths_w_view = [(view, image_path) for view, image_path in zip(exam['views'], exam['files']) if view.startswith(view_name)]
+        def get_view(view_name, img_dir):
+            image_paths_w_view = [(view, os.path.join(img_dir, image_path)) for view, image_path in zip(exam['views'], exam['files']) if view.startswith(view_name)]
 
             image_paths_w_view = image_paths_w_view[:1]
             image_paths = [path for _ , path in image_paths_w_view]
             return image_paths
 
-        left_ccs = get_view('L CC')
-        left_mlos = get_view('L MLO')
-        right_ccs = get_view('R CC')
-        right_mlos = get_view('R MLO')
+        left_ccs = get_view('L CC', img_dir)
+        left_mlos = get_view('L MLO', img_dir)
+        right_ccs = get_view('R CC', img_dir)
+        right_mlos = get_view('R MLO', img_dir)
 
         return left_ccs, left_mlos, right_ccs, right_mlos
 
