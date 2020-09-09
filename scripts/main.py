@@ -12,7 +12,7 @@ parser.add_argument('--num_images', type=int, default=1, help='In multi image se
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    Detroit_Mammo_Cancer_With_Prior_Dataset(args).set_args(args)
+    Detroit_Mammo_Cancer_With_Prior_Dataset.set_args(args)
     train_data, dev_data, test_data = Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'train'), Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'dev'), Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'test')
 
 
