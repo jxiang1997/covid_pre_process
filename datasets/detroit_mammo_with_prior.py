@@ -80,7 +80,6 @@ class Detroit_Mammo_Cancer_With_Prior_Dataset(Abstract_Mammo_Cancer_With_Prior_D
 
     @staticmethod
     def set_args(args):
-        args.num_classes = 2
         args.multi_image = True
         args.num_images = 2
 
