@@ -1,4 +1,5 @@
 import torch
+import torchvision
 
 from PIL import Image, ImageFile
 
@@ -16,7 +17,7 @@ class image_loader():
 
         params: path - absolute path to image
         """
-        image = Image.open(path).ToTensor()
+        image = torchvision.transforms.ToTensor()(Image.open(path))
 
         return image
     
