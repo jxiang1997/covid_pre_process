@@ -47,32 +47,32 @@ class Detroit_Mammo_Cancer_With_Prior_Dataset(Abstract_Mammo_Cancer_With_Prior_D
                 'exam': exam
             }
 
-        all_views = ['L CC', 'L MLO', 'R CC', 'R MLO']
-        all_years = list(reversed(sorted(year_to_exam.keys())))
+            all_views = ['L CC', 'L MLO', 'R CC', 'R MLO']
+            all_years = list(reversed(sorted(year_to_exam.keys())))
 
-        for index, year in enumerate(all_years):
+            for index, year in enumerate(all_years):
 
-            exam = year_to_exam[year]
-            prior_exams = [ (prior_year, year_to_exam[prior_year]) for prior_year in all_years[index+1:]]
+                exam = year_to_exam[year]
+                prior_exams = [ (prior_year, year_to_exam[prior_year]) for prior_year in all_years[index+1:]]
 
-            for view in all_views:
-                if len(exam[view]) == 0:
-                    continue
+                for view in all_views:
+                    if len(exam[view]) == 0:
+                        continue
 
-                prior_with_view = [ (prior_year, prior) for prior_year, prior in prior_exams if len(prior[view]) > 0]
+                    prior_with_view = [ (prior_year, prior) for prior_year, prior in prior_exams if len(prior[view]) > 0]
 
-                for prior_year, prior in prior_with_view:
+                    for prior_year, prior in prior_with_view:
 
-                    dataset.append({
-                        'paths': [exam[view][0], prior[view][0]],
-                        'exam': exam['exam'],
-                        'prior_exam': prior['exam'],
-                        'year': year,
-                        'prior_year': prior_year,
-                        'ssn':ssn,
-                        'time_difference': year - prior_year
+                        dataset.append({
+                            'paths': [exam[view][0], prior[view][0]],
+                            'exam': exam['exam'],
+                            'prior_exam': prior['exam'],
+                            'year': year,
+                            'prior_year': prior_year,
+                            'ssn':ssn,
+                            'time_difference': year - prior_year
 
-                    })
+                        })
         
         return dataset
 
