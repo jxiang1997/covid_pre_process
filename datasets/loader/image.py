@@ -24,6 +24,7 @@ class image_loader():
         params: paths - list of absolute paths to images
         """
         images = [self.get_image(path) for path in paths]
+        image = torch.stack(images)
 
         if self.args.num_images > 1:
             channels_times_images, _, H, W = images.size()
