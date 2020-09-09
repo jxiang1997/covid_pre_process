@@ -35,17 +35,17 @@ class Detroit_Mammo_Cancer_With_Prior_Dataset(Abstract_Mammo_Cancer_With_Prior_D
             for exam in exams:
                 year = exam['date']
 
-            left_ccs, left_mlos, right_ccs, right_mlos = self.get_image_paths_by_views(exam)
+                left_ccs, left_mlos, right_ccs, right_mlos = self.get_image_paths_by_views(exam)
 
-            # Create dictionary of all exams for every patient
-            year_to_exam[year] = {
-                'L CC': left_ccs,
-                'L MLO': left_mlos,
-                'R CC': right_ccs,
-                'R MLO': right_mlos,
-                'ssn': ssn,
-                'exam': exam
-            }
+                # Create dictionary of all exams for every patient
+                year_to_exam[year] = {
+                    'L CC': left_ccs,
+                    'L MLO': left_mlos,
+                    'R CC': right_ccs,
+                    'R MLO': right_mlos,
+                    'ssn': ssn,
+                    'exam': exam
+                }
 
             all_views = ['L CC', 'L MLO', 'R CC', 'R MLO']
             all_years = list(reversed(sorted(year_to_exam.keys())))
