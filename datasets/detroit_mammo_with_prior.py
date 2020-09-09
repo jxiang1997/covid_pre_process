@@ -70,8 +70,6 @@ class Detroit_Mammo_Cancer_With_Prior_Dataset(Abstract_Mammo_Cancer_With_Prior_D
                             'year': year,
                             'prior_year': prior_year,
                             'ssn':ssn,
-                            'time_difference': year - prior_year
-
                         })
         
         return dataset
