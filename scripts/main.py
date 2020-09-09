@@ -5,6 +5,7 @@ import argparse
 parser = argparse.ArgumentParser()
 # image loading
 parser.add_argument('--img_dir', type=str, default='/data/rsg/mammogram/detroit_data/pngs', help='dir of images. Note, image path in dataset jsons should stem from here')
+parser.add_argument('--metadata_dir', type=str, default='/data/rsg/mammogram/detroit_data/json_files', help='dir of metadata files.')
 
 if __name__ == "__main__":
     args = parser.parse_args()
