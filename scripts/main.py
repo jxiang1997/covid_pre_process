@@ -1,6 +1,7 @@
 from datasets.detroit_mammo_with_prior import Detroit_Mammo_Cancer_With_Prior_Dataset
 
 import argparse
+import ipdb
 
 parser = argparse.ArgumentParser()
 # image loading
@@ -19,6 +20,7 @@ if __name__ == "__main__":
 
 
     print("train data length: ", len(train_data))
+    ipdb.set_trace()
     print("example train data: ", train_data[0])
     print("dev data length: ", len(dev_data))
     print("test data length: ", len(test_data))
