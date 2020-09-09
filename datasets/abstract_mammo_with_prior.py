@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from loader.image import image_loader
+from datasets.loader.image import image_loader
 from torch.utils import data
 from tqdm import tqdm
 
