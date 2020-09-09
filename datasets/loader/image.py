@@ -16,7 +16,7 @@ class image_loader():
 
         params: path - absolute path to image
         """
-        image = Image.open(path)
+        image = Image.open(path).ToTensor()
 
         return image
     
