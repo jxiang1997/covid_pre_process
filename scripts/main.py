@@ -13,5 +13,6 @@ if __name__ == "__main__":
 
 
     print("train data length: ", len(train_data))
+    print("example train data: ", train_data[0])
     print("dev data length: ", len(dev_data))
     print("test data length: ", len(test_data))
