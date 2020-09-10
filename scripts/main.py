@@ -1,7 +1,7 @@
-from datasets.detroit_mammo_with_prior import Detroit_Mammo_Cancer_With_Prior_Dataset
+from datasets.detroit_mammo_with_prior import Detroit_Mammo_Cancer_With_Prior_Dataset #type: ignore
 
 import argparse
-import ipdb
+import ipdb #type: ignore
 
 parser = argparse.ArgumentParser()
 # image loading

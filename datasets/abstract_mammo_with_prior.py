@@ -1,11 +1,11 @@
-from abc import ABCMeta, abstractmethod
-from datasets.loader.image import image_loader
-from torch.utils import data
-from tqdm import tqdm
+from abc import ABCMeta, abstractmethod #type: ignore
+from datasets.loader.image import image_loader #type: ignore
+from torch.utils import data #type: ignore
+from tqdm import tqdm #type: ignore
 
 import json
-import numpy as np
-import ipdb
+import numpy as np #type: ignore
+import ipdb #type: ignore
 import os
 
 METAFILE_NOTFOUND_ERR = "Metadata file {} could not be parsed! Exception: {}!"
@@ -17,7 +17,7 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, args, split_group):
+    def __init__(self, args, split_group: str):
         """
             params: args - config.
             params: split_group - ['train'|'dev'|'test'].
@@ -47,7 +47,7 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
 
 
     @abstractmethod
-    def create_dataset(self, split_group, img_dir):
+    def create_dataset(self, split_group: str, img_dir: str):
         """
         Creating the dataset from the paths and labels in the json.
 
@@ -65,10 +65,10 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
     def __len__(self):
         return len(self.dataset)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         return self.get_image_item(index)
     
-    def get_image_item(self, index):
+    def get_image_item(self, index: int):
         sample = self.dataset[index]
 
         if self.args.multi_image:
@@ -80,7 +80,7 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
 
         return item
         
-    def get_image_paths_by_views(self, exam, img_dir):
+    def get_image_paths_by_views(self, exam: dict, img_dir: str):
         """
         Get image paths of left and right CCs and MLOs
 
@@ -89,7 +89,7 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
         returns: 4 lists of image paths of each view by this order: left_ccs, left_mlos, right_ccs, right_mlos. Force max 1 image per view.
         """
 
-        def get_view(view_name, img_dir):
+        def get_view(view_name: str, img_dir: str):
             image_paths_w_view = [(view, os.path.join(img_dir, image_path)) for view, image_path in zip(exam['views'], exam['files']) if view.startswith(view_name)]
 
             image_paths_w_view = image_paths_w_view[:1]

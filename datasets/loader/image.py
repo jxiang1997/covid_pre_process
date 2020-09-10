@@ -1,7 +1,7 @@
-import torch
-import torchvision
+import torch #type: ignore
+import torchvision #type: ignore
 
-from PIL import Image, ImageFile
+from PIL import Image, ImageFile #type: ignore
 
 
 class image_loader():
@@ -27,11 +27,12 @@ class image_loader():
 
         params: paths - list of absolute paths to images
         """
-        images = [self.get_image(path) for path in paths]
+        images = [self.get_image(path) for path in paths] 
         # T, C, H, W
-        images = torch.stack(images)
-
-        images = images.transpose(0,1) #C, T, H, W
+        images = torch.stack(images) #type: ignore
+        
+        #C, T, H, W 
+        images = images.transpose(0,1) #type: ignore
 
         return images
         
