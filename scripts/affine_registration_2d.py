@@ -22,12 +22,13 @@ import time
 import matplotlib.pyplot as plt
 import torch as th
 import ipdb
+import cv2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import align as al
 
-PLOT_DIR = "/data/rsg/mammogram/jxiang/plots"
+PLOT_DIR = "/data/rsg/mammogram/jxiang/affine_registration_2d_plots"
 
 def main():
     start = time.time()
@@ -52,7 +53,7 @@ def main():
 
     total_loss = 0
 
-    for index in range(100):
+    for index in range(3):
         image_paths = train_data[index]['paths']
 
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
@@ -112,6 +113,8 @@ def main():
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Image')
 
+        cv2.imwrite(os.path.join(PLOT_DIR), str(index) + "_fixed_image.png")
+
         plt.subplot(132)
         plt.imshow(moving_image.numpy(), cmap='gray')
         plt.title('Moving Image')
@@ -125,7 +128,7 @@ def main():
 
         plt.savefig(os.path.join(PLOT_DIR, str(index) + "_plot.png"))
 
-    print("average loss over 100 iterations: ", total_loss/100)
+    print("average loss over 3 iterations: ", total_loss/3)
 
 
   
