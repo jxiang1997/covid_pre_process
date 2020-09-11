@@ -111,7 +111,6 @@ def main():
 
         # plot the results
         plt.subplot(131)
-        fixed_image[np.where((image==[255, 255, 255]).all(axis=2))] = [0,0,255]
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Image')
 
@@ -121,7 +120,14 @@ def main():
 
 
         plt.subplot(133)
-        plt.imshow(warped_image.numpy(), cmap='Reds_r')
+        red_warped_image = np.repeat(warped_image.numpy()[:,:,np.newaxis], 3, axis=2)
+        red_warped_image[:,:,1] = 0
+        red_warped_image[:,:,2] = 0
+
+        blue_fixed_image = np.repeat(fixed_image.numpy()[:,:,np.newaxis], 3, axis=2)
+        blue_fixed_image[:,:,0] = 0
+        blue_fixed_image[:,:,1] = 0
+        plt.imshow(blue_fixed_image, alpha = 0.5)
         plt.title('Warped Moving Image')
 
         if not os.path.exists(PLOT_DIR):
