@@ -17,7 +17,7 @@ import torch.nn.functional as F
 
 import numpy as np
 
-from .. import transformation as T
+import align.transform as T
 import align.utils as tu
 import align.kernel_function as utils
 
