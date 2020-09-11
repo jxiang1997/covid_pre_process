@@ -18,6 +18,7 @@ import align.parsing as parsing
 import sys
 import os
 import time
+import numpy as np
 
 import matplotlib.pyplot as plt
 import torch as th
@@ -53,7 +54,7 @@ def main():
 
     total_loss = 0
 
-    for index in range(2):
+    for index in range(1):
         image_paths = train_data[index]['paths']
 
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
@@ -110,24 +111,18 @@ def main():
 
         # plot the results
         plt.subplot(131)
-        ipdb.set_trace()
+        fixed_image[np.where((image==[255, 255, 255]).all(axis=2))] = [0,0,255]
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Image')
-
-        cv2.imwrite(os.path.join(PLOT_DIR, str(index) + "_fixed_image.png"), fixed_image.numpy())
 
         plt.subplot(132)
         plt.imshow(moving_image.numpy(), cmap='gray')
         plt.title('Moving Image')
 
-        cv2.imwrite(os.path.join(PLOT_DIR, str(index) + "_moving_image.png"), moving_image.numpy())
-
 
         plt.subplot(133)
         plt.imshow(warped_image.numpy(), cmap='Reds_r')
         plt.title('Warped Moving Image')
-
-        cv2.imwrite(os.path.join(PLOT_DIR, str(index) + "_warped_moving_image.png"), warped_image.numpy())
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
