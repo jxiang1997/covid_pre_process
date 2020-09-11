@@ -27,6 +27,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import align as al
 
+PLOT_DIR = "/data/rsg/mammogram/jxiang/plots"
+
 def main():
     start = time.time()
 
@@ -50,7 +52,7 @@ def main():
 
     total_loss = 0
 
-    for index in range(100):
+    for index in range(2):
         image_paths = train_data[index]['paths']
 
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
@@ -118,7 +120,10 @@ def main():
         plt.imshow(warped_image.numpy(), cmap='gray')
         plt.title('Warped Moving Image')
 
-        plt.savefig("i_plot.png")
+        if not os.path.exists(PLOT_DIR):
+            os.makedirs(PLOT_DIR)
+
+        plt.savefig(os.path.join(PLOT_DIR, index + "_plot.png"))
 
     print("average loss over 100 iterations: ", total_loss/100)
 
