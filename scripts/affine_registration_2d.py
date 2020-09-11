@@ -54,7 +54,7 @@ def main():
 
     total_loss = 0
 
-    for index in range(1):
+    for index in range(2):
         image_paths = train_data[index]['paths']
 
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
