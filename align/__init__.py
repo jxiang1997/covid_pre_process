@@ -20,4 +20,5 @@ import align.registration
 import align.regularization
 import align.image_utils
 import align.kernel_function
+import align.image_filters
 
