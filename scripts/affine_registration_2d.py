@@ -113,7 +113,7 @@ def main():
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Image')
 
-        cv2.imwrite(os.path.join(PLOT_DIR), str(index) + "_fixed_image.png", fixed_image.numpy())
+        cv2.imwrite(os.path.join(PLOT_DIR, str(index) + "_fixed_image.png"), fixed_image.numpy())
 
         plt.subplot(132)
         plt.imshow(moving_image.numpy(), cmap='gray')
