@@ -39,7 +39,7 @@ def main():
 
     # In order to use a GPU uncomment the following line. The number is the device index of the used GPU
     # Here, the GPU with the index 0 is used.
-    device = th.device("cuda:0")
+    device = th.device("cuda:3")
 
     args = parsing.parse_args()
 
