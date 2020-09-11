@@ -6,3 +6,4 @@ tqdm
 Pillow
 matplotlib
 SimpleITK
+opencv-python
