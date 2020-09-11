@@ -157,6 +157,69 @@ class Image:
         self.image = self.image.squeeze().permute(tuple(reversed(range(self.ndim))))
         self.image = self.image.unsqueeze(0).unsqueeze(0)
 
+"""
+    Object representing a displacement image
+"""
+class Displacement(Image):
+    def __init__(self, *args, **kwargs):
+        """
+        Constructor for a displacement field object where two cases are distinguished:
+        - Construct airlab displacement field from an array or tensor (4 arguments)
+        - Construct airlab displacement field from an SimpleITK image (less than 4 arguments)
+        """
+        if len(args) == 4:
+            self.initializeForTensors(*args)
+        elif len(args) < 4:
+            self.initializeForImages(*args)
+
+
+    def itk(self):
+
+        # flip axis to
+        df = Displacement(self.image.clone(), self.size, self.spacing, self.origin)
+        df._reverse_axis()
+        df.image = df.image.squeeze()
+        df.image = df.image.cpu()
+
+        if len(self.size) == 2:
+            itk_displacement = sitk.GetImageFromArray(df.image.numpy(), isVector=True)
+        elif len(self.size) == 3:
+            itk_displacement = sitk.GetImageFromArray(df.image.numpy())
+
+        itk_displacement.SetSpacing(spacing=self.spacing)
+        itk_displacement.SetOrigin(origin=self.origin)
+        return itk_displacement
+
+    def magnitude(self):
+       return Image(th.sqrt(th.sum(self.image.pow(2),  -1)).squeeze(), self.size, self.spacing, self.origin)
+
+    def numpy(self):
+        return self.image.cpu().numpy()
+
+    def _reverse_axis(self):
+        """
+        Flips the order of the axis representing the space dimensions (preceeding dimensions are ignored).
+        Respectively, the axis holding the vectors is flipped as well
+        Note: the method is inplace
+        """
+        # reverse order of axis to follow the convention of SimpleITK
+        order = list(reversed(range(self.ndim-1)))
+        order.append(len(order))
+        self.image = self.image.squeeze_().permute(tuple(order))
+        self.image = flip(self.image, self.ndim-1)
+        self.image = self.image.unsqueeze(0).unsqueeze(0)
+
+
+    @staticmethod
+    def read(filename, dtype=th.float32, device='cpu'):
+        """
+        Static method to directly read a displacement field through the Image class
+        filename (str): filename of the displacement field
+        dtype: specific dtype for representing the tensor
+        device: on which device the displacement field has to be allocated
+        return (Displacement): an airlab displacement field
+        """
+        return Displacement(sitk.ReadImage(filename, sitk.sitkVectorFloat32), dtype, device)
 
 
 
@@ -243,3 +306,9 @@ def create_image_pyramid(image, down_sample_factor):
         sys.exit(-1)
 
     return image_pyramide
+
+"""
+    Convert an image to tensor representation
+"""
+def create_displacement_image_from_image(tensor_displacement, image):
+    return Displacement(tensor_displacement, image.size, image.spacing, image.origin)
