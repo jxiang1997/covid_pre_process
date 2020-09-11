@@ -117,12 +117,6 @@ def main():
         warped_image = al.utils.warp_image(moving_image, displacement)
         displacement = al.image_utils.create_displacement_image_from_image(displacement, moving_image)
 
-
-        # create inverse displacement field
-        inverse_displacement = transformation.get_inverse_displacement()
-        inverse_warped_image = al.utils.warp_image(warped_image, inverse_displacement)
-        inverse_displacement = al.image_utils.create_displacement_image_from_image(inverse_displacement, moving_image)
-
         end = time.time()
 
         print("=================================================================")
@@ -142,10 +136,6 @@ def main():
         plt.subplot(133)
         plt.imshow(warped_image.numpy(), cmap='gray')
         plt.title('Warped Moving Image')
-
-        plt.subplot(134)
-        plt.imshow(displacement.magnitude().numpy(), cmap='jet')
-        plt.title('Magnitude Displacement')
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
