@@ -120,7 +120,7 @@ def main():
 
 
         plt.subplot(133)
-        red_warped_image = np.repeat(warped_igstmage.numpy()[:,:,np.newaxis], 3, axis=2)
+        red_warped_image = np.repeat(warped_image.numpy()[:,:,np.newaxis], 3, axis=2)
         red_warped_image[:,:,1] = 0
         red_warped_image[:,:,2] = 0
 
