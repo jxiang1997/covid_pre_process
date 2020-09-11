@@ -47,7 +47,7 @@ class _PairwiseImageLoss(th.nn.modules.Module):
         assert self._moving_image.device == self._fixed_image.device
         assert len(self._moving_image.size) == 2 or len(self._moving_image.size) == 3
 
-        self._grid = T.utils.compute_grid(self._moving_image.size, dtype=self._moving_image.dtype,
+        self._grid = tu.compute_grid(self._moving_image.size, dtype=self._moving_image.dtype,
                                      device=self._moving_image.device)
 
         self._dtype = self._moving_image.dtype
