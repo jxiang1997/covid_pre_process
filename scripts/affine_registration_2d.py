@@ -119,9 +119,14 @@ def main():
         plt.imshow(moving_image.numpy(), cmap='gray')
         plt.title('Moving Image')
 
+        cv2.imwrite(os.path.join(PLOT_DIR, str(index) + "_moving_image.png"), moving_image.numpy())
+
+
         plt.subplot(133)
         plt.imshow(warped_image.numpy(), cmap='gray')
         plt.title('Warped Moving Image')
+
+        cv2.imwrite(os.path.join(PLOT_DIR, str(index) + "_warped_moving_image.png"), warped_image.numpy())
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
