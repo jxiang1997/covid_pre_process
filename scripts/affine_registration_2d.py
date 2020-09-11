@@ -123,7 +123,7 @@ def main():
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
 
-        plt.savefig(os.path.join(PLOT_DIR, index + "_plot.png"))
+        plt.savefig(os.path.join(PLOT_DIR, str(index) + "_plot.png"))
 
     print("average loss over 100 iterations: ", total_loss/100)
 
