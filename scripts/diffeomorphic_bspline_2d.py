@@ -63,8 +63,8 @@ def main():
 
         fixed_image, moving_image = al.image_filters.normalize_images(fixed_image, moving_image)
         # create image pyramide size/4, size/2, size/1
-        fixed_image_pyramid = al.create_image_pyramid(fixed_image, [[4, 4], [2, 2]])
-        moving_image_pyramid = al.create_image_pyramid(moving_image, [[4, 4], [2, 2]])
+        fixed_image_pyramid = al.image_utils.create_image_pyramid(fixed_image, [[4, 4], [2, 2]])
+        moving_image_pyramid = al.image_utils.create_image_pyramid(moving_image, [[4, 4], [2, 2]])
 
         constant_displacement = None
         regularisation_weight = [1, 5, 50]
@@ -166,7 +166,7 @@ def main():
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
-            
+
         plt.rcParams["figure.figsize"] = [16,9]
         plt.savefig(os.path.join(PLOT_DIR, str(index) + "_plot.png"))
 

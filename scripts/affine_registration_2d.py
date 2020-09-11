@@ -130,8 +130,7 @@ def main():
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
-
-        plt.rcParams["figure.figsize"] = [16,9]
+        
         plt.savefig(os.path.join(PLOT_DIR, str(index) + "_plot.png"))
 
     print("average loss over 3 iterations: ", total_loss/3)

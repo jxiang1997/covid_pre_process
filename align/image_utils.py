@@ -195,3 +195,51 @@ def read_image_as_tensor(filename, dtype=th.float32, device='cpu'):
     itk_image = sitk.ReadImage(filename, sitk.sitkFloat32)
 
     return create_tensor_image_from_itk_image(itk_image, dtype=dtype, device=device)
+
+
+
+"""
+    Create an image pyramide  
+"""
+def create_image_pyramid(image, down_sample_factor):
+
+    image_dim = len(image.size)
+    image_pyramide = []
+    if image_dim == 2:
+        for level in down_sample_factor:
+            sigma = (th.tensor(level)/2).to(dtype=th.float32)
+
+            kernel = kernelFunction.gaussian_kernel_2d(sigma.numpy(), asTensor=True)
+            padding = np.array([(x - 1)/2 for x in kernel.size()], dtype=int).tolist()
+            kernel = kernel.unsqueeze(0).unsqueeze(0)
+            kernel = kernel.to(dtype=image.dtype, device=image.device)
+
+            image_sample = F.conv2d(image.image, kernel, stride=level, padding=padding)
+            image_size = image_sample.size()[-image_dim:]
+            image_spacing = [x*y for x, y in zip(image.spacing, level)]
+            image_origin = image.origin
+            image_pyramide.append(Image(image_sample, image_size, image_spacing, image_origin))
+
+        image_pyramide.append(image)
+    elif image_dim == 3:
+        for level in down_sample_factor:
+            sigma = (th.tensor(level)/2).to(dtype=th.float32)
+
+            kernel = kernelFunction.gaussian_kernel_3d(sigma.numpy(), asTensor=True)
+            padding = np.array([(x - 1) / 2 for x in kernel.size()], dtype=int).tolist()
+            kernel = kernel.unsqueeze(0).unsqueeze(0)
+            kernel = kernel.to(dtype=image.dtype, device=image.device)
+
+            image_sample = F.conv3d(image.image, kernel, stride=level, padding=padding)
+            image_size = image_sample.size()[-image_dim:]
+            image_spacing = [x*y for x, y in zip(image.spacing, level)]
+            image_origin = image.origin
+            image_pyramide.append(Image(image_sample, image_size, image_spacing, image_origin))
+
+        image_pyramide.append(image)
+
+    else:
+        print("Error: ", image_dim, " is not supported with create_image_pyramide()")
+        sys.exit(-1)
+
+    return image_pyramide
