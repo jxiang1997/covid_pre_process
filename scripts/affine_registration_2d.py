@@ -47,7 +47,8 @@ def main():
 
     for index in range(200):
         x = train_data[index]['x']
-        ipdb.set_trace()
+        print(x.shape)
+        break
         print("HI")
 
 
