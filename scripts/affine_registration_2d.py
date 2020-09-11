@@ -110,6 +110,7 @@ def main():
 
         # plot the results
         plt.subplot(131)
+        ipdb.set_trace()
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Image')
 
