@@ -48,8 +48,8 @@ def main():
     for index in range(200):
         image_paths = train_data[index]['paths']
 
-        fixed_image = al.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
-        moving_image = al.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
+        fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
+        moving_image = al.image_utils.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
 
         fixed_image, moving_image = al.utils.normalize_images(fixed_image, moving_image)
 
