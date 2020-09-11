@@ -304,8 +304,6 @@ class RigidTransformation(_Transformation):
         return self._concatenate_flows(flow)
     
     
-
-
 class SimilarityTransformation(RigidTransformation):
     r"""
     Similarity centred transformation for 2D and 3D.
