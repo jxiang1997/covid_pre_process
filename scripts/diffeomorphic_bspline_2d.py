@@ -131,38 +131,21 @@ def main():
         print("Result parameters:")
 
         # plot the results
-        plt.subplot(241)
+        plt.subplot(131)
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Image')
 
-        plt.subplot(242)
+        plt.subplot(132)
         plt.imshow(moving_image.numpy(), cmap='gray')
         plt.title('Moving Image')
 
-        plt.subplot(243)
+        plt.subplot(133)
         plt.imshow(warped_image.numpy(), cmap='gray')
         plt.title('Warped Moving Image')
 
-        plt.subplot(244)
+        plt.subplot(134)
         plt.imshow(displacement.magnitude().numpy(), cmap='jet')
         plt.title('Magnitude Displacement')
-
-        # plot the results
-        plt.subplot(245)
-        plt.imshow(warped_image.numpy(), cmap='gray')
-        plt.title('Warped Moving Image')
-
-        plt.subplot(246)
-        plt.imshow(moving_image.numpy(), cmap='gray')
-        plt.title('Moving Image')
-
-        plt.subplot(247)
-        plt.imshow(inverse_warped_image.numpy(), cmap='gray')
-        plt.title('Inverse Warped Moving Image')
-
-        plt.subplot(248)
-        plt.imshow(inverse_displacement.magnitude().numpy(), cmap='jet')
-        plt.title('Magnitude Inverse Displacement')
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
