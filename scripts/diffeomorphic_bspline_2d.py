@@ -97,7 +97,7 @@ def main():
             registration.set_image_loss([image_loss])
 
             # define the regulariser for the displacement
-            regulariser = al.regulariser.DiffusionRegulariser(mov_im_level.spacing)
+            regulariser = al.regularization.DiffusionRegulariser(mov_im_level.spacing)
             regulariser.SetWeight(regularisation_weight[level])
 
             registration.set_regulariser_displacement([regulariser])
