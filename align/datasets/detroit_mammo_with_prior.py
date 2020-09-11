@@ -62,6 +62,8 @@ class Detroit_Mammo_Cancer_With_Prior_Dataset(Abstract_Mammo_Cancer_With_Prior_D
                     prior_with_view = [ (prior_year, prior) for prior_year, prior in prior_exams if len(prior[view]) > 0]
 
                     for prior_year, prior in prior_with_view:
+                        if prior[view][0] == exam[view][0]:
+                            continue
 
                         dataset.append({
                             'paths': [exam[view][0], prior[view][0]],

@@ -44,6 +44,9 @@ def main():
     Detroit_Mammo_Cancer_With_Prior_Dataset.set_args(args)
     train_data, dev_data, test_data = Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'train'), Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'dev'), Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'test')
 
+    print("train data length: ", len(train_data))
+    print("dev data length: ", len(dev_data))
+    print("test data length: ", len(test_data))
 
     for index in range(200):
         image_paths = train_data[index]['paths']
