@@ -1,4 +1,4 @@
-from datasets.abstract_mammo_with_prior import Abstract_Mammo_Cancer_With_Prior_Dataset #type: ignore
+from align.datasets.abstract_mammo_with_prior import Abstract_Mammo_Cancer_With_Prior_Dataset #type: ignore
 from torch.utils import data #type: ignore
 from tqdm import tqdm #type: ignore
 

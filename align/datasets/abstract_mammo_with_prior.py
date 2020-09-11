@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod #type: ignore
-from datasets.loader.image import image_loader #type: ignore
+from align.datasets.loader.image import image_loader #type: ignore
 from torch.utils import data #type: ignore
 from tqdm import tqdm #type: ignore
 
