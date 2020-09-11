@@ -46,10 +46,77 @@ def main():
 
 
     for index in range(200):
-        x = train_data[index]['x']
-        ipdb.set_trace()
+        image_paths = train_data[index]['paths']
+
+        fixed_image = al.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
+        moving_image = al.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
+
+        fixed_image, moving_image = al.utils.normalize_images(fixed_image, moving_image)
+
+        # convert intensities so that the object intensities are 1 and the background 0. This is important in order to
+        # calculate the center of mass of the object
+        fixed_image.image = 1 - fixed_image.image
+        moving_image.image = 1 - moving_image.image
+
+        # create pairwise registration object
+        registration = al.PairwiseRegistration()
+
+        # choose the affine transformation model
+        transformation = al.transformation.pairwise.SimilarityTransformation(moving_image, opt_cm=True)
+        # initialize the translation with the center of mass of the fixed image
+        transformation.init_translation(fixed_image)
+
+        registration.set_transformation(transformation)
+
+        # choose the Mean Squared Error as image loss
+        image_loss = al.loss.pairwise.MSE(fixed_image, moving_image)
+
+        registration.set_image_loss([image_loss])
+
+        # choose the Adam optimizer to minimize the objective
+        optimizer = th.optim.Adam(transformation.parameters(), lr=0.01, amsgrad=True)
+
+        registration.set_optimizer(optimizer)
+        registration.set_number_of_iterations(1000)
+
+        # start the registration
+        registration.start()
+
+        # set the intensities back to the original for the visualisation
+        fixed_image.image = 1 - fixed_image.image
+        moving_image.image = 1 - moving_image.image
+
+        # warp the moving image with the final transformation result
+        displacement = transformation.get_displacement()
+        warped_image = al.transformation.utils.warp_image(moving_image, displacement)
+
+        end = time.time()
+
+        print("=================================================================")
+
+        print("Registration done in:", end - start, "s")
+        print("Result parameters:")
+        transformation.print()
+
+        # plot the results
+        plt.subplot(131)
+        plt.imshow(fixed_image.numpy(), cmap='gray')
+        plt.title('Fixed Image')
+
+        plt.subplot(132)
+        plt.imshow(moving_image.numpy(), cmap='gray')
+        plt.title('Moving Image')
+
+        plt.subplot(133)
+        plt.imshow(warped_image.numpy(), cmap='gray')
+        plt.title('Warped Moving Image')
+
+        plt.savefig("test_plot.png")
+
         break
-        print("HI")
+
+
+  
 
 if __name__ == "__main__":
     main()

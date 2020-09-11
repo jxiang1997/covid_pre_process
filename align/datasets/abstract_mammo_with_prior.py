@@ -76,7 +76,8 @@ class Abstract_Mammo_Cancer_With_Prior_Dataset(data.Dataset):
         else:
             x = self.image_loader.get_image(sample['path'])
         
-        item = {'x': x}
+        item = {'x': x,
+                'paths': sample['paths']}
 
         return item
         
