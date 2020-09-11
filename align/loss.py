@@ -18,8 +18,8 @@ import torch.nn.functional as F
 import numpy as np
 
 from .. import transformation as T
-from ..transformation import utils as tu
-from ..utils import kernelFunction as utils
+import align.utils as tu
+import align.kernel_function as utils
 
 
 

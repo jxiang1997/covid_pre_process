@@ -5,3 +5,4 @@ ipdb
 tqdm
 Pillow
 matplotlib
+SimpleITK
