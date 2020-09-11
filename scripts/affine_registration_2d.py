@@ -124,7 +124,7 @@ def main():
 
 
         plt.subplot(133)
-        plt.imshow(warped_image.numpy(), cmap='gray')
+        plt.imshow(warped_image.numpy(), cmap='red')
         plt.title('Warped Moving Image')
 
         cv2.imwrite(os.path.join(PLOT_DIR, str(index) + "_warped_moving_image.png"), warped_image.numpy())
