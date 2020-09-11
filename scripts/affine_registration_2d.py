@@ -51,7 +51,7 @@ def main():
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
         moving_image = al.image_utils.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
 
-        fixed_image, moving_image = al.utils.normalize_images(fixed_image, moving_image)
+        fixed_image, moving_image = al.image_filters.normalize_images(fixed_image, moving_image)
 
         # convert intensities so that the object intensities are 1 and the background 0. This is important in order to
         # calculate the center of mass of the object
