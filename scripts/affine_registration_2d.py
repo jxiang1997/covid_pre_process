@@ -80,10 +80,12 @@ def main():
         optimizer = th.optim.Adam(transformation.parameters(), lr=0.01, amsgrad=True)
 
         registration.set_optimizer(optimizer)
-        registration.set_number_of_iterations(1000)
+        registration.set_number_of_iterations(100)
 
         # start the registration
         registration.start()
+
+        print("registration loss: ", registration.loss)
 
         # set the intensities back to the original for the visualisation
         fixed_image.image = 1 - fixed_image.image
