@@ -207,7 +207,7 @@ def create_image_pyramid(image, down_sample_factor):
     image_pyramide = []
     if image_dim == 2:
         for level in down_sample_factor:
-            sigma = (th.tensor(level)/2).to(dtype=th.float32)
+            sigma = th.true_divide(th.tensor(level),th.tensor(2)).to(dtype=th.float32)
 
             kernel = kernelFunction.gaussian_kernel_2d(sigma.numpy(), asTensor=True)
             padding = np.array([(x - 1)/2 for x in kernel.size()], dtype=int).tolist()
