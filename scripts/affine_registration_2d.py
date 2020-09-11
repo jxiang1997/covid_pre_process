@@ -48,7 +48,9 @@ def main():
     print("dev data length: ", len(dev_data))
     print("test data length: ", len(test_data))
 
-    for index in range(200):
+    total_loss = 0
+
+    for index in range(100):
         image_paths = train_data[index]['paths']
 
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
@@ -85,7 +87,7 @@ def main():
         # start the registration
         registration.start()
 
-        print("registration loss: ", registration.loss)
+        total_loss += registration
 
         # set the intensities back to the original for the visualisation
         fixed_image.image = 1 - fixed_image.image
@@ -116,9 +118,9 @@ def main():
         plt.imshow(warped_image.numpy(), cmap='gray')
         plt.title('Warped Moving Image')
 
-        plt.savefig("test_plot.png")
+        plt.savefig("i_plot.png")
 
-        break
+    print("average loss over 100 iterations: ", total_loss/100)
 
 
   
