@@ -59,17 +59,17 @@ def main():
         moving_image.image = 1 - moving_image.image
 
         # create pairwise registration object
-        registration = al.PairwiseRegistration()
+        registration = al.registration.PairwiseRegistration()
 
         # choose the affine transformation model
-        transformation = al.transformation.pairwise.SimilarityTransformation(moving_image, opt_cm=True)
+        transformation = al.transform.SimilarityTransformation(moving_image, opt_cm=True)
         # initialize the translation with the center of mass of the fixed image
         transformation.init_translation(fixed_image)
 
         registration.set_transformation(transformation)
 
         # choose the Mean Squared Error as image loss
-        image_loss = al.loss.pairwise.MSE(fixed_image, moving_image)
+        image_loss = al.loss.MSE(fixed_image, moving_image)
 
         registration.set_image_loss([image_loss])
 
@@ -88,7 +88,7 @@ def main():
 
         # warp the moving image with the final transformation result
         displacement = transformation.get_displacement()
-        warped_image = al.transformation.utils.warp_image(moving_image, displacement)
+        warped_image = al.utils.warp_image(moving_image, displacement)
 
         end = time.time()
 
