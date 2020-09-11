@@ -53,7 +53,7 @@ def main():
 
     total_loss = 0
 
-    for index in range(3):
+    for index in range(2):
         image_paths = train_data[index]['paths']
 
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
@@ -131,6 +131,7 @@ def main():
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
 
+        plt.rcParams["figure.figsize"] = [16,9]
         plt.savefig(os.path.join(PLOT_DIR, str(index) + "_plot.png"))
 
     print("average loss over 3 iterations: ", total_loss/3)
