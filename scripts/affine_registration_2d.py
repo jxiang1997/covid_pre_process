@@ -89,7 +89,7 @@ def main():
         # start the registration
         registration.start()
 
-        total_loss += registration
+        total_loss += registration.loss
 
         # set the intensities back to the original for the visualisation
         fixed_image.image = 1 - fixed_image.image
