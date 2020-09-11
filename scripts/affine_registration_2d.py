@@ -47,9 +47,12 @@ def main():
 
     for index in range(200):
         x = train_data[index]['x']
-        print(x.shape)
+        pdb.set_tracce()
         break
         print("HI")
+
+if __name__ == "__main__":
+    main()
 
 
 
