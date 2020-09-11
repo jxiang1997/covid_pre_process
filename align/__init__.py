@@ -18,4 +18,6 @@ import align.loss
 import align.transform
 import align.registration
 import align.regularization
+import align.image_utils
+import align.kernel_function
 
