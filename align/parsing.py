@@ -10,6 +10,9 @@ def parse_args():
     parser.add_argument('--num_images', type=int, default=1, help='In multi image setting, the number of images per single sample.')
     parser.add_argument('--num_chan', type=int, default=3, help='Number of channels in img. [default:3]')
 
+    # hyper parameter tuning
+    parser.add_argument('--loss', type=str, default='mse', help="Type of loss functions to use. Choose between mse, ncc (normalized cross correlation), lcc (local normalized cross correlation), mi (mutual information), ngf (normlized gradient fields), and ssim (structural similarity image measure loss)")
+
     args = parser.parse_args()
 
     return args

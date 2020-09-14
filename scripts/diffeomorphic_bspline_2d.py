@@ -91,6 +91,20 @@ def main():
             # choose the Mean Squared Error as image loss
             image_loss = al.loss.MSE(fix_im_level, mov_im_level)
 
+            if args.loss == 'mse':
+                image_loss = al.loss.MSE(fix_im_level, mov_im_level)
+            elif args.loss == 'ncc':
+                image_loss = al.loss.NCC(fix_im_level, mov_im_level)
+            elif args.loss == 'lcc':
+                image_loss = al.loss.LCC(fix_im_level, mov_im_level)
+            elif args.loss == 'mi':
+                image_loss = al.loss.MI(fix_im_level, mov_im_level)
+            elif args.loss == 'ngf':
+                image_loss = al.loss.NGF(fix_im_level, mov_im_level)
+            else:
+                assert args.loss == "ssim"
+                image_loss = al.loss.SSIM(fix_im_level, mov_im_level)
+
             registration.set_image_loss([image_loss])
 
             # define the regulariser for the displacement
