@@ -124,11 +124,11 @@ def main():
         # plot the results
         plt.subplot(141)
         plt.imshow(fixed_image.numpy(), cmap='gray')
-        plt.title('Fixed Image')
+        plt.title('Fixed Img')
 
         plt.subplot(142)
         plt.imshow(moving_image.numpy(), cmap='gray')
-        plt.title('Moving Image')
+        plt.title('Moving Img')
 
         plt.subplot(143)
         red_warped_image = np.repeat(warped_image.numpy()[:,:,np.newaxis], 3, axis=2)
@@ -143,11 +143,11 @@ def main():
 
         img = red_warped_image + blue_fixed_image
         plt.imshow(img)
-        plt.title('Warped Moving Image')
+        plt.title('Warped Moving Img')
 
         plt.subplot(144)
         plt.imshow(displacement.magnitude().numpy(), cmap='jet')
-        plt.title('Magnitude Displacement')
+        plt.title('Displacement')
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
