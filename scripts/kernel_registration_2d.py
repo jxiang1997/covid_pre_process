@@ -30,7 +30,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import align as al
 
-PLOT_DIR = "/data/rsg/mammogram/jxiang/diffeomorphic_bspline_2d_plots"
+PLOT_DIR = "/data/rsg/mammogram/jxiang/kernel_registration_2d_plots"
 
 def main():
     start = time.time()
@@ -52,18 +52,17 @@ def main():
     total_loss = 0
 
     for index in range(2):
-
+        
         image_paths = train_data[index]['paths']
 
         fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
         moving_image = al.image_utils.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
 
-        fixed_image, moving_image = al.image_filters.normalize_images(fixed_image, moving_image)
         # create image pyramide size/4, size/2, size/1
         fixed_image_pyramid = al.image_utils.create_image_pyramid(fixed_image, [[4, 4], [2, 2]])
         moving_image_pyramid = al.image_utils.create_image_pyramid(moving_image, [[4, 4], [2, 2]])
 
-        constant_displacement = None
+        constant_flow = None
         regularisation_weight = [1, 5, 50]
         number_of_iterations = [500, 500, 500]
         sigma = [[11, 11], [11, 11], [3, 3]]
@@ -73,17 +72,16 @@ def main():
             registration = al.registration.PairwiseRegistration(verbose=True)
 
             # define the transformation
-            transformation = al.transform.BsplineTransformation(mov_im_level.size,
+            transformation = al.transform.pairwise.BsplineTransformation(mov_im_level.size,
                                                                             sigma=sigma[level],
                                                                             order=3,
                                                                             dtype=dtype,
-                                                                            device=device,
-                                                                            diffeomorphic=True)
+                                                                            device=device)
 
             if level > 0:
-                constant_flow = al.utils.upsample_displacement(constant_flow,
-                                                                                    mov_im_level.size,
-                                                                                    interpolation="linear")
+                constant_flow = al.transform.utils.upsample_displacement(constant_flow,
+                                                                            mov_im_level.size,
+                                                                            interpolation="linear")
                 transformation.set_constant_flow(constant_flow)
 
             registration.set_transformation(transformation)
@@ -110,7 +108,7 @@ def main():
 
             registration.set_regulariser_displacement([regulariser])
 
-            #define the optimizer
+            # define the optimizer
             optimizer = th.optim.Adam(transformation.parameters())
 
             registration.set_optimizer(optimizer)
@@ -122,8 +120,8 @@ def main():
 
         # create final result
         displacement = transformation.get_displacement()
-        warped_image = al.utils.warp_image(moving_image, displacement)
-        displacement = al.image_utils.create_displacement_image_from_image(displacement, moving_image)
+        warped_image = al.transformation.utils.warp_image(moving_image, displacement)
+        displacement = al.create_displacement_image_from_image(displacement, moving_image)
 
         end = time.time()
 
@@ -133,15 +131,15 @@ def main():
         print("Result parameters:")
 
         # plot the results
-        plt.subplot(141)
+        plt.subplot(221)
         plt.imshow(fixed_image.numpy(), cmap='gray')
-        plt.title('Fixed Img')
+        plt.title('Fixed Image')
 
-        plt.subplot(142)
+        plt.subplot(222)
         plt.imshow(moving_image.numpy(), cmap='gray')
-        plt.title('Moving Img')
+        plt.title('Moving Image')
 
-        plt.subplot(143)
+        plt.subplot(223)
         red_warped_image = np.repeat(warped_image.numpy()[:,:,np.newaxis], 3, axis=2)
         red_warped_image[:,:,1] = 0
         red_warped_image[:,:,2] = 0
@@ -156,7 +154,7 @@ def main():
         plt.imshow(img)
         plt.title('Warped Moving Img')
 
-        plt.subplot(144)
+        plt.subplot(224)
         plt.imshow(displacement.magnitude().numpy(), cmap='jet')
         plt.title('Displacement')
 
@@ -165,9 +163,9 @@ def main():
         if not os.path.exists(plot_dir):
             os.makedirs(plot_dir)
 
-        plt.rcParams["figure.figsize"] = [64,36]
+        plt.rcParams["figure.figsize"] = [16,9]
         plt.tight_layout()
         plt.savefig(os.path.join(plot_dir, str(index) + "_plot.png"))
 
 if __name__ == '__main__':
-	main()
+    main()
