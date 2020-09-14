@@ -139,7 +139,7 @@ def main():
         blue_fixed_image[:,:,0] = 0
         blue_fixed_image[:,:,1] = 0
 
-        img = red_warped_image + blue_fixed_image
+        img = red_warped_image
         plt.imshow(img)
         plt.title('Warped Moving Image')
 
