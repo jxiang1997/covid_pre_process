@@ -147,8 +147,10 @@ def main():
 
         print("WAREPD IMAGE SAME AS FIXED: ", warped_image == fixed_image)
 
+        warped_image = np.repeat(warped_image.numpy()[:,:,np.newaxis], 3, axis=2)
+
         img = warped_image + red_fixed_image
-        plt.imshow(warped_image.numpy())
+        plt.imshow(img)
         plt.title('Warped Moving Img')
 
         plt.subplot(224)
