@@ -231,10 +231,8 @@ def create_tensor_image_from_itk_image(itk_image, dtype=th.float32, device='cpu'
     # transform image in a unit direction
     image_dim = itk_image.GetDimension()
     if image_dim == 2:
-        print("2D IAMGE")
         itk_image.SetDirection(sitk.VectorDouble([1, 0, 0, 1]))
     else:
-        print("3D IAMGE")
         itk_image.SetDirection(sitk.VectorDouble([1, 0, 0, 0, 1, 0, 0, 0, 1]))
 
     image_spacing = itk_image.GetSpacing()
