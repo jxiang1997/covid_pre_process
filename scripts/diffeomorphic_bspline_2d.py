@@ -30,7 +30,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import align as al
 
-from align.loss import factory as loss_factory
+import align.loss.factory as loss_factory
 
 PLOT_DIR = "/data/rsg/mammogram/jxiang/diffeomorphic_bspline_2d_plots"
 
@@ -90,7 +90,7 @@ def main():
 
             registration.set_transformation(transformation)
 
-            image_loss = loss_factory(args.loss)
+            image_loss = loss_factory.get_loss(args.loss)
             # if args.loss == 'mse':
             #     image_loss = al.loss.loss.MSE(fix_im_level, mov_im_level)
             # elif args.loss == 'ncc':
