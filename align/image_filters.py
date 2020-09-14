@@ -20,7 +20,7 @@ import SimpleITK as sitk
 import numpy as np
 import torch as th
 
-from align.image_utils import Image
+from align.utils.image_utils import Image
 
 
 def auto_crop_image_filter(image, boundary_value=0):
