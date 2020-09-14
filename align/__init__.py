@@ -18,6 +18,7 @@ import align.loss
 import align.transform
 import align.registration
 import align.regularization
+import align.demons_regularization
 import align.utils.image_utils
 import align.utils.kernel_function
 import align.image_filters
