@@ -81,7 +81,7 @@ def main():
         registration.set_regulariser([regulariser])
 
         # choose the Adam optimizer to minimize the objective
-        optimizer = th.optim.Adam(transformation.parameters(), lr=0.001)
+        optimizer = th.optim.Adam(transformation.parameters(), lr=args.init_lr)
 
         registration.set_optimizer(optimizer)
         registration.set_number_of_iterations(4000)
