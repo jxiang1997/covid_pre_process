@@ -77,11 +77,11 @@ def main():
         # choose a regulariser for the demons
         regulariser = al.demons_regularization.GaussianRegulariser(moving_image.spacing, sigma=[2, 2], dtype=dtype,
                                                                 device=device)
-
+        
         registration.set_regulariser([regulariser])
 
         # choose the Adam optimizer to minimize the objective
-        optimizer = th.optim.Adam(transformation.parameters(), lr=0.01)
+        optimizer = th.optim.Adam(transformation.parameters(), lr=0.001)
 
         registration.set_optimizer(optimizer)
         registration.set_number_of_iterations(1000)
@@ -125,7 +125,7 @@ def main():
         print("WAREPD IMAGE SAME AS FIXED: ", warped_image == fixed_image)
 
         img = red_warped_image + blue_fixed_image
-        plt.imshow(img)
+        plt.imshow(warped_image.numpy())
         plt.title('Warped Moving Img')
 
         plt.subplot(224)
