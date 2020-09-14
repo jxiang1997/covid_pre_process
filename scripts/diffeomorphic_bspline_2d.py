@@ -30,6 +30,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import align as al
 
+import align.loss.factory as loss_factory
+
 PLOT_DIR = "/data/rsg/mammogram/jxiang/diffeomorphic_bspline_2d_plots"
 
 def main():
@@ -88,25 +90,29 @@ def main():
 
             registration.set_transformation(transformation)
 
-            if args.loss == 'mse':
-                image_loss = al.loss.MSE(fix_im_level, mov_im_level)
-            elif args.loss == 'ncc':
-                image_loss = al.loss.NCC(fix_im_level, mov_im_level)
-            elif args.loss == 'lcc':
-                image_loss = al.loss.LCC(fix_im_level, mov_im_level)
-            elif args.loss == 'mi':
-                image_loss = al.loss.MI(fix_im_level, mov_im_level)
-            elif args.loss == 'ngf':
-                image_loss = al.loss.NGF(fix_im_level, mov_im_level)
-            else:
-                assert args.loss == "ssim"
-                image_loss = al.loss.SSIM(fix_im_level, mov_im_level)
+            image_loss = loss_factory(args.loss)
+            # if args.loss == 'mse':
+            #     image_loss = al.loss.loss.MSE(fix_im_level, mov_im_level)
+            # elif args.loss == 'ncc':
+            #     image_loss = al.loss.loss.NCC(fix_im_level, mov_im_level)
+            # elif args.loss == 'lcc':
+            #     image_loss = al.loss.loss.LCC(fix_im_level, mov_im_level)
+            # elif args.loss == 'mi':
+            #     image_loss = al.loss.loss.MI(fix_im_level, mov_im_level)
+            # elif args.loss == 'ngf':
+            #     image_loss = al.loss.loss.NGF(fix_im_level, mov_im_level)
+            # else:
+            #     assert args.loss == "ssim"
+            #     image_loss = al.loss.loss.SSIM(fix_im_level, mov_im_level)
 
             registration.set_image_loss([image_loss])
 
             # define the regulariser for the displacement
+            
             regulariser = al.regularization.DiffusionRegulariser(mov_im_level.spacing)
             regulariser.SetWeight(regularisation_weight[level])
+
+            # test to see if we can use multiple regularizers
 
             registration.set_regulariser_displacement([regulariser])
 
