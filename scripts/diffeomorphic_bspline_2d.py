@@ -152,7 +152,8 @@ def main():
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
 
-        plt.rcParams["figure.figsize"] = [16,9]
+        plt.rcParams["figure.figsize"] = [32,18]
+        plt.tight_layout()
         plt.savefig(os.path.join(PLOT_DIR, str(index) + "_plot.png"))
 
 if __name__ == '__main__':
