@@ -72,14 +72,14 @@ def main():
             registration = al.registration.PairwiseRegistration(verbose=True)
 
             # define the transformation
-            transformation = al.transform.pairwise.BsplineTransformation(mov_im_level.size,
+            transformation = al.transform.BsplineTransformation(mov_im_level.size,
                                                                             sigma=sigma[level],
                                                                             order=3,
                                                                             dtype=dtype,
                                                                             device=device)
 
             if level > 0:
-                constant_flow = al.transform.utils.upsample_displacement(constant_flow,
+                constant_flow = al.utils.upsample_displacement(constant_flow,
                                                                             mov_im_level.size,
                                                                             interpolation="linear")
                 transformation.set_constant_flow(constant_flow)
