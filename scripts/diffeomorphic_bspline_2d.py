@@ -66,7 +66,7 @@ def main():
         constant_displacement = None
         regularisation_weight = args.regularization_weights
         number_of_iterations = [500, 500, 500]
-        sigma = args.sigma
+        sigma = [[11,11],[11,11],[3,3]]
 
         for level, (mov_im_level, fix_im_level) in enumerate(zip(moving_image_pyramid, fixed_image_pyramid)):
 
