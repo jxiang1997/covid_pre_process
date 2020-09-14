@@ -90,7 +90,7 @@ def main():
 
             registration.set_transformation(transformation)
 
-            image_loss = loss_factory.get_loss(args.loss)
+            image_loss = loss_factory.get_loss(args.loss)(fix_im_level, mov_im_level)
             # if args.loss == 'mse':
             #     image_loss = al.loss.loss.MSE(fix_im_level, mov_im_level)
             # elif args.loss == 'ncc':
