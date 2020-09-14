@@ -62,7 +62,7 @@ def main():
         registration = al.registration.DemonsRegistraion(verbose=True)
 
         # choose the affine transformation model
-        transformation = al.transform.NonParametricTransformation(moving_image.size,
+        transformation = al.transform.transform.NonParametricTransformation(moving_image.size,
                                                                                 dtype=dtype,
                                                                                 device=device,
                                                                                 diffeomorphic=True)

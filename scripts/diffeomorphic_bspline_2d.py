@@ -75,7 +75,7 @@ def main():
             registration = al.registration.PairwiseRegistration(verbose=True)
 
             # define the transformation
-            transformation = al.transform.BsplineTransformation(mov_im_level.size,
+            transformation = al.transform.transform.BsplineTransformation(mov_im_level.size,
                                                                             sigma=sigma[level],
                                                                             order=3,
                                                                             dtype=dtype,
