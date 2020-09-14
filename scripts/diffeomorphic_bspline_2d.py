@@ -91,19 +91,6 @@ def main():
             registration.set_transformation(transformation)
 
             image_loss = loss_factory.get_loss(args.loss)(fix_im_level, mov_im_level)
-            # if args.loss == 'mse':
-            #     image_loss = al.loss.loss.MSE(fix_im_level, mov_im_level)
-            # elif args.loss == 'ncc':
-            #     image_loss = al.loss.loss.NCC(fix_im_level, mov_im_level)
-            # elif args.loss == 'lcc':
-            #     image_loss = al.loss.loss.LCC(fix_im_level, mov_im_level)
-            # elif args.loss == 'mi':
-            #     image_loss = al.loss.loss.MI(fix_im_level, mov_im_level)
-            # elif args.loss == 'ngf':
-            #     image_loss = al.loss.loss.NGF(fix_im_level, mov_im_level)
-            # else:
-            #     assert args.loss == "ssim"
-            #     image_loss = al.loss.loss.SSIM(fix_im_level, mov_im_level)
 
             registration.set_image_loss([image_loss])
 
