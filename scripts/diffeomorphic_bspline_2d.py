@@ -163,12 +163,14 @@ def main():
         plt.imshow(displacement.magnitude().numpy(), cmap='jet')
         plt.title('Displacement')
 
+        PLOT_DIR = PLOT_DIR + '_' + args.loss
+
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
 
         plt.rcParams["figure.figsize"] = [64,36]
         plt.tight_layout()
-        plt.savefig(os.path.join(PLOT_DIR, str(index) + "_" + args.loss + "_plot.png"))
+        plt.savefig(os.path.join(PLOT_DIR, str(index) + "_plot.png"))
 
 if __name__ == '__main__':
 	main()
