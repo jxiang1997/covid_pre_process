@@ -93,7 +93,7 @@ def main():
         displacement = transformation.get_displacement()
 
         # use the shaded version of the fixed image for visualization
-        warped_image = al.transformation.utils.warp_image(moving_image, displacement)
+        warped_image = al.transform.utils.warp_image(moving_image, displacement)
 
         end = time.time()
 

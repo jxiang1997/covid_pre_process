@@ -115,7 +115,7 @@ def main():
 
         # create final result
         displacement = transformation.get_displacement()
-        warped_image = al.utils.warp_image(moving_image, displacement)
+        warped_image = al.transform.utils.warp_image(moving_image, displacement)
         displacement = al.utils.image_utils.create_displacement_image_from_image(displacement, moving_image)
 
         end = time.time()
