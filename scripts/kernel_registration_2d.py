@@ -151,7 +151,7 @@ def main():
         print("WAREPD IMAGE SAME AS FIXED: ", warped_image == fixed_image)
 
         img = red_warped_image + blue_fixed_image
-        plt.imshow(img)
+        plt.imshow(warped_image)
         plt.title('Warped Moving Img')
 
         plt.subplot(224)
