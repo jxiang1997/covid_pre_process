@@ -141,17 +141,13 @@ def main():
 
         print("WAREPD IMAGE SAME AS FIXED: ", warped_image == fixed_image)
 
-        img = red_warped_image
+        img = red_warped_image + blue_fixed_image
         plt.imshow(img)
         plt.title('Warped Moving Image')
 
         plt.subplot(144)
-        plt.imshow(blue_fixed_image)
-        plt.title("Blue fixed image")
-
-        # plt.subplot(144)
-        # plt.imshow(displacement.magnitude().numpy(), cmap='jet')
-        # plt.title('Magnitude Displacement')
+        plt.imshow(displacement.magnitude().numpy(), cmap='jet')
+        plt.title('Magnitude Displacement')
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
