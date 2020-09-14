@@ -139,10 +139,12 @@ def main():
         plt.imshow(img)
         plt.title('Warped Moving Image')
 
-        if not os.path.exists(PLOT_DIR):
-            os.makedirs(PLOT_DIR)
+        plot_dir = PLOT_DIR + '_' + args.loss
+
+        if not os.path.exists(plot_dir):
+            os.makedirs(plot_dir)
         
-        plt.savefig(os.path.join(PLOT_DIR, str(index) + "_" + args.loss + "_plot.png"))
+        plt.savefig(os.path.join(plot_dir, str(index) + "_plot.png"))
 
     print("average loss over 3 iterations: ", total_loss/3)
 
