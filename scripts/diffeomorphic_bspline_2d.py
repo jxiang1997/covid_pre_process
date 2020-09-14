@@ -51,7 +51,7 @@ def main():
 
     total_loss = 0
 
-    for index in range(1):
+    for index in range(2):
 
         image_paths = train_data[index]['paths']
 
