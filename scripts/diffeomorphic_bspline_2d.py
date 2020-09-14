@@ -64,9 +64,9 @@ def main():
         moving_image_pyramid = al.image_utils.create_image_pyramid(moving_image, [[4, 4], [2, 2]])
 
         constant_displacement = None
-        regularisation_weight = [1, 5, 50]
+        regularisation_weight = args.regularization_weights
         number_of_iterations = [500, 500, 500]
-        sigma = [[11, 11], [11, 11], [3, 3]]
+        sigma = args.sigma
 
         for level, (mov_im_level, fix_im_level) in enumerate(zip(moving_image_pyramid, fixed_image_pyramid)):
 
