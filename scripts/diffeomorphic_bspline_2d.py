@@ -51,7 +51,7 @@ def main():
 
     total_loss = 0
 
-    for index in range(2):
+    for index in range(1):
 
         image_paths = train_data[index]['paths']
 
@@ -139,13 +139,19 @@ def main():
         blue_fixed_image[:,:,0] = 0
         blue_fixed_image[:,:,1] = 0
 
+        print("WAREPD IMAGE SAME AS FIXED: ", warped_image == fixed_image)
+
         img = red_warped_image
         plt.imshow(img)
         plt.title('Warped Moving Image')
 
         plt.subplot(144)
-        plt.imshow(displacement.magnitude().numpy(), cmap='jet')
-        plt.title('Magnitude Displacement')
+        plt.imshow(blue_fixed_image)
+        plt.title("Blue fixed image")
+
+        # plt.subplot(144)
+        # plt.imshow(displacement.magnitude().numpy(), cmap='jet')
+        # plt.title('Magnitude Displacement')
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
