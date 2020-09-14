@@ -17,7 +17,7 @@ from torch.nn.parameter import Parameter
 import torch.nn.functional as F
 import numpy as np
 
-import align.kernel_function as utils
+import align.utils.kernel_function as utils
 
 from . import utils as tu
 

@@ -17,9 +17,9 @@ import torch.nn.functional as F
 
 import numpy as np
 
-import align.transform as T
+import align.transform.transform as T
 import align.utils as tu
-import align.kernel_function as utils
+import align.utils.kernel_function as utils
 
 from align.loss.pairwise_image_loss import _PairwiseImageLoss
 from align.loss.factory import RegisterLoss

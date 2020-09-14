@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import align.kernel_function
+import align.utils.kernel_function
 
 import SimpleITK as sitk
 import torch as th

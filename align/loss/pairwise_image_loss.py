@@ -17,11 +17,9 @@ import torch.nn.functional as F
 
 import numpy as np
 
-import align.transform as T
+import align.transform.transform as T
 import align.utils as tu
-import align.kernel_function as utils
-
-
+import align.utils.kernel_function as utils
 
 # Loss base class (standard from PyTorch)
 class _PairwiseImageLoss(th.nn.modules.Module):
