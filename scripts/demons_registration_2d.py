@@ -1,4 +1,3 @@
-
 # Copyright 2018 University of Basel, Center for medical Image Analysis and Navigation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +21,8 @@ import time
 import numpy as np
 
 import matplotlib.pyplot as plt
+
 import torch as th
-import ipdb
-import cv2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -32,7 +30,7 @@ import align as al
 
 import align.loss.factory as loss_factory
 
-PLOT_DIR = "/data/rsg/mammogram/jxiang/diffeomorphic_bspline_2d_plots"
+PLOT_DIR = "/data/rsg/mammogram/jxiang/demons_registration_2d_plots"
 
 def main():
     start = time.time()
@@ -60,81 +58,62 @@ def main():
         fixed_image = al.utils.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
         moving_image = al.utils.image_utils.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
 
-        fixed_image, moving_image = al.image_filters.normalize_images(fixed_image, moving_image)
-        # create image pyramide size/4, size/2, size/1
-        fixed_image_pyramid = al.utils.image_utils.create_image_pyramid(fixed_image, [[4, 4], [2, 2]])
-        moving_image_pyramid = al.utils.image_utils.create_image_pyramid(moving_image, [[4, 4], [2, 2]])
+        # create pairwise registration object
+        registration = al.registration.DemonsRegistraion(verbose=True)
 
-        constant_displacement = None
-        regularisation_weight = args.regularization_weights
-        number_of_iterations = [500, 500, 500]
-        sigma = [[11,11],[11,11],[3,3]]
+        # choose the affine transformation model
+        transformation = al.transform.NonParametricTransformation(moving_image.size,
+                                                                                dtype=dtype,
+                                                                                device=device,
+                                                                                diffeomorphic=True)
 
-        for level, (mov_im_level, fix_im_level) in enumerate(zip(moving_image_pyramid, fixed_image_pyramid)):
+        registration.set_transformation(transformation)
 
-            registration = al.registration.PairwiseRegistration(verbose=True)
+        # choose the Mean Squared Error as image loss
+        image_loss = loss_factory.get_loss(args.loss)(fixed_image, moving_image)
 
-            # define the transformation
-            transformation = al.transform.BsplineTransformation(mov_im_level.size,
-                                                                            sigma=sigma[level],
-                                                                            order=3,
-                                                                            dtype=dtype,
-                                                                            device=device,
-                                                                            diffeomorphic=True)
+        registration.set_image_loss([image_loss])
 
-            if level > 0:
-                constant_flow = al.utils.upsample_displacement(constant_flow,
-                                                                                    mov_im_level.size,
-                                                                                    interpolation="linear")
-                transformation.set_constant_flow(constant_flow)
+        # choose a regulariser for the demons
+        regulariser = al.demons_regularization.GaussianRegulariser(moving_image.spacing, sigma=[2, 2], dtype=dtype,
+                                                                device=device)
 
-            registration.set_transformation(transformation)
+        registration.set_regulariser([regulariser])
 
-            image_loss = loss_factory.get_loss(args.loss)(fix_im_level, mov_im_level)
+        # choose the Adam optimizer to minimize the objective
+        optimizer = th.optim.Adam(transformation.parameters(), lr=0.01)
 
-            registration.set_image_loss([image_loss])
+        registration.set_optimizer(optimizer)
+        registration.set_number_of_iterations(1000)
 
-            # define the regulariser for the displacement
-            
-            regulariser = al.regularization.DiffusionRegulariser(mov_im_level.spacing)
-            regulariser.SetWeight(regularisation_weight[level])
+        # start the registration
+        registration.start()
 
-            # test to see if we can use multiple regularizers
-
-            registration.set_regulariser_displacement([regulariser])
-
-            #define the optimizer
-            optimizer = th.optim.Adam(transformation.parameters())
-
-            registration.set_optimizer(optimizer)
-            registration.set_number_of_iterations(number_of_iterations[level])
-
-            registration.start()
-
-            constant_flow = transformation.get_flow()
-
-        # create final result
+        # warp the moving image with the final transformation result
         displacement = transformation.get_displacement()
-        warped_image = al.utils.warp_image(moving_image, displacement)
-        displacement = al.utils.image_utils.create_displacement_image_from_image(displacement, moving_image)
+
+        # use the shaded version of the fixed image for visualization
+        warped_image = al.transformation.utils.warp_image(moving_image, displacement)
 
         end = time.time()
+
+        displacement = al.utils.image_utils.create_displacement_image_from_image(displacement, moving_image)
 
         print("=================================================================")
 
         print("Registration done in: ", end - start)
-        print("Result parameters:")
 
         # plot the results
-        plt.subplot(141)
+        plt.subplot(221)
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Img')
 
-        plt.subplot(142)
+        plt.subplot(222)
         plt.imshow(moving_image.numpy(), cmap='gray')
         plt.title('Moving Img')
 
-        plt.subplot(143)
+        plt.subplot(223)
+
         red_warped_image = np.repeat(warped_image.numpy()[:,:,np.newaxis], 3, axis=2)
         red_warped_image[:,:,1] = 0
         red_warped_image[:,:,2] = 0
@@ -149,7 +128,7 @@ def main():
         plt.imshow(img)
         plt.title('Warped Moving Img')
 
-        plt.subplot(144)
+        plt.subplot(224)
         plt.imshow(displacement.magnitude().numpy(), cmap='jet')
         plt.title('Displacement')
 
@@ -162,5 +141,13 @@ def main():
         plt.tight_layout()
         plt.savefig(os.path.join(plot_dir, str(index) + "_plot.png"))
 
+        # write result images
+        # sitk.WriteImage(warped_image.itk(), '/tmp/demons_warped_image.vtk')
+        # sitk.WriteImage(moving_image.itk(), '/tmp/demons_moving_image.vtk')
+        # sitk.WriteImage(fixed_image.itk(), '/tmp/demons_fixed_image.vtk')
+        # sitk.WriteImage(shaded_image.itk(), '/tmp/demons_shaded_image.vtk')
+        # sitk.WriteImage(displacement.itk(), '/tmp/demons_displacement_image.vtk')
+
+
 if __name__ == '__main__':
-	main()
+    main()
