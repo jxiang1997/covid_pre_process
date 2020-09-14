@@ -15,7 +15,7 @@
 import torch as th
 import torch.nn.functional as F
 
-import align.image_utils as iutils
+import align.utils.image_utils as iutils
 
 import SimpleITK as sitk
 
