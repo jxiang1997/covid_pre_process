@@ -257,7 +257,7 @@ class LCC(_PairwiseImageLoss):
 
         # compute current mask
         mask = super(LCC, self).GetCurrentMask(displacement)
-        mask = 1 - mask
+        mask = ~mask
         mask = mask.to(dtype=self._dtype, device=self._device)
 
         self._warped_moving_image = F.grid_sample(self._moving_image.image, displacement)
