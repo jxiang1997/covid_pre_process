@@ -84,7 +84,7 @@ def main():
         optimizer = th.optim.Adam(transformation.parameters(), lr=0.001)
 
         registration.set_optimizer(optimizer)
-        registration.set_number_of_iterations(1000)
+        registration.set_number_of_iterations(4000)
 
         # start the registration
         registration.start()
