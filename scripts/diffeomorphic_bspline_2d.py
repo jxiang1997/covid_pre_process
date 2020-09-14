@@ -49,10 +49,6 @@ def main():
     Detroit_Mammo_Cancer_With_Prior_Dataset.set_args(args)
     train_data, dev_data, test_data = Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'train'), Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'dev'), Detroit_Mammo_Cancer_With_Prior_Dataset(args, 'test')
 
-    print("train data length: ", len(train_data))
-    print("dev data length: ", len(dev_data))
-    print("test data length: ", len(test_data))
-
     total_loss = 0
 
     for index in range(2):
@@ -126,15 +122,15 @@ def main():
         print("Result parameters:")
 
         # plot the results
-        plt.subplot(131)
+        plt.subplot(141)
         plt.imshow(fixed_image.numpy(), cmap='gray')
         plt.title('Fixed Image')
 
-        plt.subplot(132)
+        plt.subplot(142)
         plt.imshow(moving_image.numpy(), cmap='gray')
         plt.title('Moving Image')
 
-        plt.subplot(133)
+        plt.subplot(143)
         red_warped_image = np.repeat(warped_image.numpy()[:,:,np.newaxis], 3, axis=2)
         red_warped_image[:,:,1] = 0
         red_warped_image[:,:,2] = 0
@@ -146,6 +142,10 @@ def main():
         img = red_warped_image + blue_fixed_image
         plt.imshow(img)
         plt.title('Warped Moving Image')
+
+        plt.subplot(144)
+        plt.imshow(displacement.magnitude().numpy(), cmap='jet')
+        plt.title('Magnitude Displacement')
 
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
