@@ -12,8 +12,8 @@ def parse_args():
 
     # hyper parameter tuning
     parser.add_argument('--loss', type=str, default='mse', help="Type of loss functions to use. Choose between mse, ncc (normalized cross correlation), lcc (local normalized cross correlation), mi (mutual information), ngf (normlized gradient fields), and ssim (structural similarity image measure loss)")
-    parser.add_argument('--sigma', nargs='3', default='[[11, 11], [11, 11], [3, 3]]', help='sigma is hyperparameter that governs kernel window size. a listed nest of length three is needed. Eg: [[x_1, y_1],[x_2, y_2],[x_3, y_3]]')
-    parser.add_argument('--regularization_weights', nargs='3', default='[1, 5, 50]', help='regularization weight at each iteration. Each iteration is at a different downsample layer.')
+    parser.add_argument('--sigma', nargs='3', default=[[11, 11], [11, 11], [3, 3]], help='sigma is hyperparameter that governs kernel window size. a listed nest of length three is needed. Eg: [[x_1, y_1],[x_2, y_2],[x_3, y_3]]')
+    parser.add_argument('--regularization_weights', nargs='3', default=[1, 5, 50], help='regularization weight at each iteration. Each iteration is at a different downsample layer.')
 
     args = parser.parse_args()
 
