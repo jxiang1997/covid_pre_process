@@ -84,7 +84,7 @@ def main():
                                                                             diffeomorphic=True)
 
             if level > 0:
-                constant_flow = al.utils.upsample_displacement(constant_flow,
+                constant_flow = al.transform.utils.upsample_displacement(constant_flow,
                                                                                     mov_im_level.size,
                                                                                     interpolation="linear")
                 transformation.set_constant_flow(constant_flow)
