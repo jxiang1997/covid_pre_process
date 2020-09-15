@@ -97,7 +97,7 @@ def main():
 
             # define the regulariser for the displacement
 
-            regulariser = regularizer_factory.get_regularizer(args.displacement_regularizers)(mov_im_level.spacing)
+            regulariser = regularizer_factory.get_regularizer(args.displacement_regularizer)(mov_im_level.spacing)
             
             regulariser.SetWeight(regularisation_weight[level])
 
@@ -155,7 +155,7 @@ def main():
         plt.imshow(displacement.magnitude().numpy(), cmap='jet')
         plt.title('Displacement')
 
-        plot_dir = PLOT_DIR + '_' + args.loss
+        plot_dir = PLOT_DIR + '_' + args.loss + '_' + args.displacement_regularizer
 
         if not os.path.exists(plot_dir):
             os.makedirs(plot_dir)

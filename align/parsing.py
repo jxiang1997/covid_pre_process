@@ -14,7 +14,7 @@ def parse_args():
     parser.add_argument('--init_lr', type=float, default=0.01, help='initial learning rate (default = 0.01)')
     parser.add_argument('--loss', type=str, default='mse', help="Type of loss functions to use. Choose between mse, ncc (normalized cross correlation), lcc (local normalized cross correlation), mi (mutual information), ngf (normlized gradient fields), and ssim (structural similarity image measure loss)")
     parser.add_argument('--regularization_weights', type=int, nargs='*', default=[1, 5, 50], help='regularization weight at each iteration. Each iteration is at a different downsample layer.')
-    parser.add_argument('--displacement_regularizers', type=str, nargs='*', default=['diffusion'], help='displacement regularizer to use during bspline transformation. Can choose to incorporate multiple regularizers. Options include: isotropic_tv, tv, diffusion, sparsity')
+    parser.add_argument('--displacement_regularizers', type=str, default='diffusion', help='displacement regularizer to use during bspline transformation. Can choose to incorporate multiple regularizers. Options include: isotropic_tv, tv, diffusion, sparsity')
 
     args = parser.parse_args()
 
