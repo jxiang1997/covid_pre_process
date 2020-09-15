@@ -76,7 +76,7 @@ def main():
 
         registration.set_transformation(transformation)
         
-        image_loss = loss_factory.get_loss(args.loss)(fix_im_level, mov_im_level)
+        image_loss = loss_factory.get_loss(args.loss)(fixed_image, moving_image)
 
         registration.set_image_loss([image_loss])
 
