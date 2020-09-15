@@ -31,6 +31,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import align as al
 
 import align.loss.factory as loss_factory
+import align.regularization.factory as regularizer_factory
 
 PLOT_DIR = "/data/rsg/mammogram/jxiang/diffeomorphic_bspline_2d_plots"
 
@@ -95,8 +96,9 @@ def main():
             registration.set_image_loss([image_loss])
 
             # define the regulariser for the displacement
+
+            regulariser = regularizer_factory.get_regularizer(args.displacement_regularizers)(mov_im_level.spacing)
             
-            regulariser = al.regularization.DiffusionRegulariser(mov_im_level.spacing)
             regulariser.SetWeight(regularisation_weight[level])
 
             # test to see if we can use multiple regularizers
