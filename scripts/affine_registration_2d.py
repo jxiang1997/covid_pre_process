@@ -31,6 +31,9 @@ import align as al
 
 PLOT_DIR = "/data/rsg/mammogram/jxiang/affine_registration_2d_plots"
 
+import align.loss.factory as loss_factory
+import align.regularization.factory as regularizer_factory
+
 def main():
     start = time.time()
 
@@ -53,10 +56,10 @@ def main():
     for index in range(2):
         image_paths = train_data[index]['paths']
 
-        fixed_image = al.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
-        moving_image = al.image_utils.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
+        fixed_image = al.utils.image_utils.read_image_as_tensor(image_paths[0], dtype=dtype, device=device)
+        moving_image = al.utils.image_utils.read_image_as_tensor(image_paths[1], dtype=dtype, device=device)
 
-        fixed_image, moving_image = al.image_filters.normalize_images(fixed_image, moving_image)
+        fixed_image, moving_image = al.utils.image_filters.normalize_images(fixed_image, moving_image)
 
         # convert intensities so that the object intensities are 1 and the background 0. This is important in order to
         # calculate the center of mass of the object
@@ -67,25 +70,13 @@ def main():
         registration = al.registration.PairwiseRegistration()
 
         # choose the affine transformation model
-        transformation = al.transform.SimilarityTransformation(moving_image, opt_cm=True)
+        transformation = al.transform.transform.SimilarityTransformation(moving_image, opt_cm=True)
         # initialize the translation with the center of mass of the fixed image
         transformation.init_translation(fixed_image)
 
         registration.set_transformation(transformation)
-
-        if args.loss == 'mse':
-            image_loss = al.loss.MSE(fixed_image, moving_image)
-        elif args.loss == 'ncc':
-            image_loss = al.loss.NCC(fixed_image, moving_image)
-        elif args.loss == 'lcc':
-            image_loss = al.loss.LCC(fixed_image, moving_image)
-        elif args.loss == 'mi':
-            image_loss = al.loss.MI(fixed_image, moving_image)
-        elif args.loss == 'ngf':
-            image_loss = al.loss.NGF(fixed_image, moving_image)
-        else:
-            assert args.loss == "ssim"
-            image_loss = al.loss.SSIM(fixed_image, moving_image)
+        
+        image_loss = loss_factory.get_loss(args.loss)(fix_im_level, mov_im_level)
 
         registration.set_image_loss([image_loss])
 
@@ -106,7 +97,7 @@ def main():
 
         # warp the moving image with the final transformation result
         displacement = transformation.get_displacement()
-        warped_image = al.utils.warp_image(moving_image, displacement)
+        warped_image = al.transform.utils.warp_image(moving_image, displacement)
 
         end = time.time()
 
