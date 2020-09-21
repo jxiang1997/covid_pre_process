@@ -77,6 +77,7 @@ def normalize_images(fixed_image, moving_image):
     fixed_max = fixed_image.image.max()
     max_val = max(fixed_max, moving_max)
 
+
     fixed_image.image /= max_val
     moving_image.image /= max_val
 
