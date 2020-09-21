@@ -1,4 +1,4 @@
-# align
-Alignement Experiments Repo
+# Covid Pre Process
 
-Relevant project document [here](https://docs.google.com/document/d/1R6COjgXagqLH73QRy77F-ctOKMSjdBKbmzn8vflkRpQ/edit#)
+Instructions:
+1. Create virtual env and install dependencies. "pip install -r requirements.txt"
