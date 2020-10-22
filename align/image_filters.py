@@ -70,16 +70,16 @@ def normalize_images(fixed_image, moving_image):
 
     min_val = min(fixed_min, moving_min)
 
-    fixed_image.image -= min_val
-    moving_image.image -= min_val
+    fixed_image.image -= fixed_min
+    moving_image.image -= moving_min
 
     moving_max = moving_image.image.max()
     fixed_max = fixed_image.image.max()
     max_val = max(fixed_max, moving_max)
 
 
-    fixed_image.image /= max_val
-    moving_image.image /= max_val
+    fixed_image.image /= fixed_max
+    moving_image.image /= moving_max
 
     return (fixed_image, moving_image)
 
